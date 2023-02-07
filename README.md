@@ -53,7 +53,7 @@ O controle do idioma pode ser feito através de query string, utilizando a segui
 ?lang=en
 ```
 
-_Se a query string "lang" for omitida então será considerado como idioma padrão o idioma aplicado ao .env;_
+_Se a query string "lang" for omitida então será considerado como idioma padrão aplicado ao .env;_
 
 O controle dos meses e anos é feito através de query string, utilizando a seguinte nomenclatura:
 
@@ -62,16 +62,19 @@ O controle dos meses e anos é feito através de query string, utilizando a segu
 &year=2023 # para o ano de 2023
 ```
 
-_Se as query strings forem omitidas então o mês atual do ano atual serão consideradas;_
+_Se as query strings "month" e "year" forem omitidas então o mês e o ano atuais serão consideradas;_
+
 Toda a inteligência se encontra no banco de dados;
 
-* A procedure _work_record_report_ é responsável por calcular automáticamente as horas de trabalho com base nos campos start_time e final time e também realiza um somatório das horas de trabalho agrupadas por mês e ano;
+* A procedure _work_record_report_ é responsável por realizar um somatório das horas de trabalho agrupadas por mês e ano, passada através dos parâmetros p_month e p_year respectivamente;
 * A view _work_record_vw_ é utilizada para devolver os dados formatados para o front-end, sem a necessidade de conversões e formatações;
+* A view _work_record_navigator_vw é utilizada para devolver um agrupamento de meses e anos, permitindo navegar entre eles no front-end;
+* As triggers _work_record_before_insert_ e _work_record_before_update_ são responsáveis por registar o cálulo no campo elapsed_time a hora trabalhada a partir dos campos start_time e final_time;
 
 ## ToDo
 
-- [x] Implementar Internacionalização;
-- [x] Implementar Nevagador de Meses e Anos;
+- [x] Implementar Internacionalização (Apenas Inglês e Português);
+- [x] Implementar DropDown para navegar por meses e anos;
 - [ ] Implementar Bootstrap DatePicker;
 - [ ] Implementar Bootstrap TimePicker;
 - [ ] Calcular no Front-end as horas trabalhadas no CRUD (Apenas Create e Update);
