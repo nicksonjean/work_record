@@ -1,5 +1,14 @@
 {
+    "name": "nicksonjean/work_record",
+    "description": "Registro de Horas de Trabalho",
+    "authors": [
+        {
+            "name": "Nickson Jeanmerson",
+            "email": "nickson.jeanmerson@gmail.com"
+        }
+    ],
     "require": {
+        "philipp15b/php-i18n": "^4.0",
         "vlucas/phpdotenv": "^5.5"
     }
 }

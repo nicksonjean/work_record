@@ -57,13 +57,13 @@ BEGIN
 	RETURN (
 		SELECT
 		CASE 
-			WHEN WEEKDAY(work_date) = 0 THEN IF(acronym = FALSE, 'Domingo', 'Dom')
-			WHEN WEEKDAY(work_date) = 1 THEN IF(acronym = FALSE, 'Segunda-feira', 'Seg')
-			WHEN WEEKDAY(work_date) = 2 THEN IF(acronym = FALSE, 'Terça-feira', 'Ter')
-			WHEN WEEKDAY(work_date) = 3 THEN IF(acronym = FALSE, 'Quarta-feira', 'Qua')
-			WHEN WEEKDAY(work_date) = 4 THEN IF(acronym = FALSE, 'Quinta-feira', 'Qui')
-			WHEN WEEKDAY(work_date) = 5 THEN IF(acronym = FALSE, 'Sexta-feira', 'Sex')
-			WHEN WEEKDAY(work_date) = 6 THEN IF(acronym = FALSE, 'Sábado', 'Sáb')
+			WHEN WEEKDAY(work_date) = 6 THEN IF(acronym = FALSE, 'Domingo', 'Dom')
+			WHEN WEEKDAY(work_date) = 0 THEN IF(acronym = FALSE, 'Segunda-feira', 'Seg')
+			WHEN WEEKDAY(work_date) = 1 THEN IF(acronym = FALSE, 'Terça-feira', 'Ter')
+			WHEN WEEKDAY(work_date) = 2 THEN IF(acronym = FALSE, 'Quarta-feira', 'Qua')
+			WHEN WEEKDAY(work_date) = 3 THEN IF(acronym = FALSE, 'Quinta-feira', 'Qui')
+			WHEN WEEKDAY(work_date) = 4 THEN IF(acronym = FALSE, 'Sexta-feira', 'Sex')
+			WHEN WEEKDAY(work_date) = 5 THEN IF(acronym = FALSE, 'Sábado', 'Sáb')
 		ELSE NULL END AS `week_day`
 	);
 END//
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `work_record` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- Copiando estrutura para procedure work_record.work_record_report
 DROP PROCEDURE IF EXISTS `work_record_report`;
@@ -101,11 +101,7 @@ BEGIN
 			SELECT 
 				h.id, 
 				week_day_names_by_work_date(h.work_date, TRUE) AS `week_day`,
-				CONCAT(
-					DATE_FORMAT(h.work_date, '%d'), 
-					'/',
-					month_names_by_work_date(h.work_date, TRUE)
-				) AS work_day,
+				CONCAT(DATE_FORMAT(h.work_date, '%d'), '/', month_names_by_work_date(h.work_date, TRUE)) AS work_day,
 				h.project,
 				h.description,
 				h.work_date,
@@ -127,9 +123,9 @@ BEGIN
 				NULL AS project,
 				NULL AS description,
 				LAST_DAY(CONCAT(p_year, '-', p_month, '-01')) AS work_date,
+				NULL AS start_time,
 				NULL AS final_time,
-				NULL AS elapsed_time,
-				TIME(SUM(b.elapsed_time))
+				SEC_TO_TIME(SUM(TIME_TO_SEC(b.elapsed_time))) AS elapsed_time
 			FROM work_record b
 			WHERE YEAR(b.work_date) = p_year AND MONTH(b.work_date) = p_month
 			ORDER BY b.work_date DESC
@@ -186,13 +182,7 @@ DROP TABLE IF EXISTS `work_record_vw`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `work_record_vw` AS SELECT 
 	h.id, 
 	week_day_names_by_work_date(h.work_date, FALSE) AS `week_day`,
-	CONCAT(
-		DATE_FORMAT(h.work_date, '%d'), 
-		' de ', 
-		month_names_by_work_date(h.work_date, FALSE), 
-		' de ', 
-		DATE_FORMAT(h.work_date, '%Y')
-	) AS work_day,
+	CONCAT(DATE_FORMAT(h.work_date, '%d'), ' de ', month_names_by_work_date(h.work_date, FALSE), ' de ', DATE_FORMAT(h.work_date, '%Y')) AS work_day,
 	DATE_FORMAT(h.work_date, '%d/%m/%Y') AS work_date,
 	h.project,
 	h.description,

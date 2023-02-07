@@ -12,7 +12,18 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <title><?= $_ENV['PROJECT_NAME'] ?></title>
+    <style>
+        #work-sheet>tbody td:nth-child(3),
+        #work-sheet>tbody td:nth-child(5) {
+            text-align: center;
+        }
+
+        #work-sheet>tbody>tr:last-child>td:nth-child(5) {
+            text-align: center;
+            font-weight: bolder;
+        }
+    </style>
+    <title><?= L::title ?></title>
 </head>
 
 <body>
@@ -22,26 +33,24 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Relatório de Horas de Trabalho
-                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/create.php" class="btn btn-primary float-end"><i class="bi bi-plus"></i></a>
+                        <h4><?= L::title ?>
+                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/create.php?lang=<?= $lang ?>" title="<?= L::actions_create ?>" class="btn btn-primary float-end"><i class="bi bi-plus"></i></a>
                         </h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table id="work-sheet" class="table table-bordered table-striped table-hover table-responsive align-middle table-sm">
                             <thead>
                                 <tr>
-                                    <th colspan="2" class="text-center">Data</th>
-                                    <th class="text-center">Projeto</th>
-                                    <th class="text-center">Descrição</th>
-                                    <th class="text-center">Horas</th>
-                                    <th width="120" class="text-center" width="160">Ação</th>
+                                    <th colspan="2" class="text-center"><?= L::fields_date ?></th>
+                                    <th class="text-center"><?= L::fields_project ?></th>
+                                    <th class="text-center"><?= L::fields_description ?></th>
+                                    <th class="text-center"><?= L::fields_hours ?></th>
+                                    <th width="120" class="text-center" width="160"><?= L::fields_action ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $mes = (!isset($_GET['mes']) ? date('m') : $_GET['mes']);
-                                $ano = (!isset($_GET['ano']) ? date('Y') : $_GET['ano']);
-                                $query_run = mysqli_query($connection, "CALL `{$_ENV['PROCEDURE_NAME']}`('" . $mes . "', '" . $ano . "')");
+                                $query_run = mysqli_query($connection, "CALL `{$_ENV['PROCEDURE_NAME']}`('" . $month . "', '" . $year . "')");
                                 if (mysqli_num_rows($query_run) > 0) {
                                     foreach ($query_run as $row) {
                                 ?>
@@ -53,10 +62,10 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                                             <td width="40"><?= $row['elapsed_time']; ?></td>
                                             <td>
                                                 <?php if ($row['id']) { ?>
-                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/read.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/update.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a>
-                                                    <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php" method="POST" class="d-inline">
-                                                        <button type="submit" name="delete" value="<?= $row['id']; ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/read.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>" title="<?= L::actions_read ?>" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/update.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>" title="<?= L::actions_update ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a>
+                                                    <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php&lang=<?= $lang ?>" method="POST" class="d-inline">
+                                                        <button type="submit" name="delete" value="<?= $row['id']; ?>" title="<?= L::actions_delete ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                                                     </form>
                                                 <?php } ?>
                                             </td>
@@ -64,7 +73,7 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                                 <?php
                                     }
                                 } else {
-                                    echo "<h5> Nenhum registro cadastrado </h5>";
+                                    echo L::none;
                                 }
                                 ?>
                             </tbody>

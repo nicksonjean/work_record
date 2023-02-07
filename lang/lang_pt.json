@@ -1,0 +1,33 @@
+{
+  "actions": {
+    "create": "Criar tarefa",
+    "read": "Ler tarefa",
+    "update": "Atualizar tarefa",
+    "delete": "Deletar tarefa"
+  },
+  "fields" : {
+    "date": "Data",
+    "project": "Projeto",
+    "description": "Descrição",
+    "hours": "Horas",
+    "action": "Ação",
+    "start_time": "Hora Inicial",
+    "final_time": "Hora Final",
+    "worked_time": "Horas Trabalhadas"
+  },
+  "message": {
+    "success": {
+      "create": "Tarefa cadastrada com sucesso",
+      "update": "Tarefa atualizada com sucesso",
+      "delete": "Tarefa excluída com sucesso"
+    },
+    "failed": {
+      "create": "Tarefa não cadastrada",
+      "update": "Tarefa não atualizada",
+      "delete": "Tarefa não excluída"
+    }
+  },
+  "title": "Relatório de Horas de Trabalho",
+  "none": "Nenhum registro encontrado",
+  "back": "Voltar"
+}

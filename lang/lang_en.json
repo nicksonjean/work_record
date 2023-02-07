@@ -1,0 +1,33 @@
+{
+  "actions": {
+    "create": "Create task",
+    "read": "Read task",
+    "update": "Update task",
+    "delete": "Delete task"
+  },
+  "fields" : {
+    "date": "Date",
+    "project": "Project",
+    "description": "Description",
+    "hours": "Hours",
+    "action": "Action",
+    "start_time": "Start Time",
+    "final_time": "Final Time",
+    "worked_time": "Worked Time"
+  },
+  "message": {
+    "success": {
+      "create": "Task created successfully",
+      "update": "Task updated successfully",
+      "delete": "Task deleted successfully"
+    },
+    "failed": {
+      "create": "Task not created",
+      "update": "Task not updated",
+      "delete": "Task not deleted"
+    }
+  },
+  "title": "Working Hours Report",
+  "none": "No record found",
+  "back": "Go back"
+}
