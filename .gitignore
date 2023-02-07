@@ -453,7 +453,7 @@ gradle-app.setting
 
 ##### Composer
 composer.phar
-/vendor
+/vendor/
 /interface/langcache
 /db/langcache
 
