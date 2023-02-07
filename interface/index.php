@@ -34,7 +34,30 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                 <div class="card">
                     <div class="card-header">
                         <h4><?= L::title ?>
-                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/create.php?lang=<?= $lang ?>" title="<?= L::actions_create ?>" class="btn btn-primary float-end"><i class="bi bi-plus"></i></a>
+                            <div class="float-end">
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?= L::navigate ?>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <?php
+                                            $query_run = mysqli_query($connection, "SELECT * FROM " . $_ENV['NAV_VIEW_NAME']);
+                                            if (mysqli_num_rows($query_run) > 0) {
+                                                foreach ($query_run as $row) {
+                                            ?>
+                                                    <li><a class="dropdown-item" href="<?= $_SESSION['BASE_WEB'] ?>interface/index.php?lang=<?= $lang ?>&month=<?= $row['month'] ?>&year=<?= $row['year'] ?>"><?= $row['month']; ?>/<?= $row['year']; ?></a></li>
+                                            <?php
+                                                }
+                                            } else {
+                                                echo L::none;
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/create.php?lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" title="<?= L::actions_create ?>" class="btn btn-primary float-end"><i class="bi bi-plus"></i></a>
+                                </div>
+                            </div>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -57,14 +80,14 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                                         <tr>
                                             <td width="40"><?= $row['work_day']; ?></td>
                                             <td width="20"><?= $row['week_day']; ?></td>
-                                            <td width="80"><a href="<?= $_ENV['JIRA_URL'] ?><?= $row['project']; ?>" target="_blank"><?= $row['project']; ?></a></td>
+                                            <td width="80"><a href="<?= $_ENV['TASK_URL'] ?><?= $row['project']; ?>" target="_blank"><?= $row['project']; ?></a></td>
                                             <td><?= $row['description']; ?></td>
                                             <td width="40"><?= $row['elapsed_time']; ?></td>
                                             <td>
                                                 <?php if ($row['id']) { ?>
-                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/read.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>" title="<?= L::actions_read ?>" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/update.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>" title="<?= L::actions_update ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a>
-                                                    <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php&lang=<?= $lang ?>" method="POST" class="d-inline">
+                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/read.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" title="<?= L::actions_read ?>" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                                                    <a href="<?= $_SESSION['BASE_WEB'] ?>interface/update.php?id=<?= $row['id']; ?>&lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" title="<?= L::actions_update ?>" class="btn btn-success btn-sm"><i class="bi bi-pencil"></i></a>
+                                                    <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php&lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" method="POST" class="d-inline">
                                                         <button type="submit" name="delete" value="<?= $row['id']; ?>" title="<?= L::actions_delete ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
                                                     </form>
                                                 <?php } ?>

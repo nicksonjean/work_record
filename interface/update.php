@@ -23,7 +23,7 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                 <div class="card">
                     <div class="card-header">
                         <h4><?= L::actions_update ?>
-                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/index.php?lang=<?= $lang ?>" title="<?= L::back ?>" class="btn btn-danger float-end"><i class="bi bi-backspace"></i></a>
+                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/index.php?lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" title="<?= L::back ?>" class="btn btn-danger float-end"><i class="bi bi-backspace"></i></a>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -34,7 +34,7 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                             if (mysqli_num_rows($query_run) > 0) {
                                 $row = mysqli_fetch_array($query_run);
                         ?>
-                                <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php" method="POST">
+                                <form action="<?= $_SESSION['BASE_WEB'] ?>db/actions.php?lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" method="POST">
                                     <input type="hidden" name="id" value="<?= $row['id']; ?>">
                                     <div class="mb-3">
                                         <label><?= L::fields_description ?></label>

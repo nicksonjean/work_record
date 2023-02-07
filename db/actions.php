@@ -13,11 +13,11 @@ if (isset($_POST['create'])) {
     $query_run = mysqli_query($connection, "INSERT INTO " . $_ENV['TABLE_NAME'] . " (project, description, work_date, start_time, final_time) VALUES ('$project', '$description', '$work_date', '$start_time', '$final_time')");
     if ($query_run) {
         $_SESSION['message'] = L::message_success_create;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/create.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/create.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     } else {
         $_SESSION['message'] = L::message_failed_create;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/create.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/create.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     }
 }
@@ -32,11 +32,11 @@ if (isset($_POST['update'])) {
     $query_run = mysqli_query($connection, "UPDATE " . $_ENV['TABLE_NAME'] . " SET project='$project', description='$description', work_date='$work_date', start_time='$start_time', final_time='$final_time' WHERE id='$id'");
     if ($query_run) {
         $_SESSION['message'] = L::message_success_update;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     } else {
         $_SESSION['message'] = L::message_failed_update;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     }
 }
@@ -46,11 +46,11 @@ if (isset($_POST['delete'])) {
     $query_run = mysqli_query($connection, "DELETE FROM " . $_ENV['TABLE_NAME'] . " WHERE id='$id'");
     if ($query_run) {
         $_SESSION['message'] = L::message_success_delete;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     } else {
         $_SESSION['message'] = L::message_success_delete;
-        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang);
+        header("Location: " . $_SESSION['BASE_WEB'] . "interface/index.php?lang=" . $lang . "&month=" . $month . "&year=" . $year);
         exit(0);
     }
 }

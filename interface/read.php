@@ -23,14 +23,14 @@ require $_SESSION['BASE_DIR'] . 'db/connection.php';
                 <div class="card">
                     <div class="card-header">
                         <h4><?= L::actions_read ?>
-                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/index.php?lang=<?= $lang ?>" title="<?= L::back ?>" class="btn btn-danger float-end"><i class="bi bi-backspace"></i></a>
+                            <a href="<?= $_SESSION['BASE_WEB'] ?>interface/index.php?lang=<?= $lang ?>&month=<?= $month ?>&year=<?= $year ?>" title="<?= L::back ?>" class="btn btn-danger float-end"><i class="bi bi-backspace"></i></a>
                         </h4>
                     </div>
                     <div class="card-body">
                         <?php
                         if (isset($_GET['id'])) {
                             $id = mysqli_real_escape_string($connection, $_GET['id']);
-                            $query_run = mysqli_query($connection, "SELECT * FROM " . $_ENV['VIEW_NAME'] . " WHERE id='$id'");
+                            $query_run = mysqli_query($connection, "SELECT * FROM " . $_ENV['READ_VIEW_NAME'] . " WHERE id='$id'");
                             if (mysqli_num_rows($query_run) > 0) {
                                 $row = mysqli_fetch_array($query_run);
                         ?>

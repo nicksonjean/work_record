@@ -84,6 +84,14 @@ CREATE TABLE IF NOT EXISTS `work_record` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
+-- Copiando estrutura para view work_record.work_record_navigator_vw
+DROP VIEW IF EXISTS `work_record_navigator_vw`;
+-- Criando tabela temporária para evitar erros de dependência de VIEW
+CREATE TABLE `work_record_navigator_vw` (
+	`month` VARCHAR(2) NULL COLLATE 'utf8mb4_general_ci',
+	`year` VARCHAR(4) NULL COLLATE 'utf8mb4_general_ci'
+) ENGINE=MyISAM;
+
 -- Copiando estrutura para procedure work_record.work_record_report
 DROP PROCEDURE IF EXISTS `work_record_report`;
 DELIMITER //
@@ -174,6 +182,16 @@ CREATE TRIGGER `work_record_before_update` BEFORE UPDATE ON `work_record` FOR EA
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Copiando estrutura para view work_record.work_record_navigator_vw
+DROP VIEW IF EXISTS `work_record_navigator_vw`;
+-- Removendo tabela temporária e criando a estrutura VIEW final
+DROP TABLE IF EXISTS `work_record_navigator_vw`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `work_record_navigator_vw` AS SELECT 
+	LPAD(MONTH(work_date), 2, '0') AS `month`,
+	CAST(YEAR(work_date) AS CHAR(4)) AS `year`
+FROM work_record
+GROUP BY MONTH(work_date), YEAR(work_date) ;
 
 -- Copiando estrutura para view work_record.work_record_vw
 DROP VIEW IF EXISTS `work_record_vw`;
